@@ -18,7 +18,6 @@ import CreateNew from './components/CreateNew'
 import Footer from './components/Footer'
 import Notification from './components/Notification';
 
-let timer
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -39,12 +38,12 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
-  //const [timeoutID, settimeoutID] = useState('')
+  const [timeoutID, settimeoutID] = useState(null)
   
 
   const addNew = (anecdote) => {
-    if(timer){
-      clearTimeout(timer)
+    if(timeoutID){
+      clearTimeout(timeoutID)
     }
     
     anecdote.id = (Math.random() * 10000).toFixed(0)
@@ -52,11 +51,12 @@ const App = () => {
 
     setNotification(`added new anecdote ${anecdote.content}`)
 
-    timer = setTimeout(() => {
+    const timer = setTimeout(() => {
       setNotification('')
+      settimeoutID(null)
     }, 5000);
 
-    //settimeoutID(timer)
+    settimeoutID(timer)
   }
 
   const anecdoteById = (id) =>
