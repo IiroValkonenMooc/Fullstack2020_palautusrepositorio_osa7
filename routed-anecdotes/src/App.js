@@ -77,6 +77,7 @@ const App = () => {
   const anecdote = match
     ? anecdotes.find(anecdote => anecdote.id === match.params.id)
     : null
+  console.log('anecdote :>> ', anecdote);
 
   return (
     <div>
@@ -85,7 +86,13 @@ const App = () => {
       <Switch>
         <Route path='/anecdotes/:id'>
           {/* <SingleAnecdoteUseParamsFilter anecdotes={anecdotes} /> */}
-          <SingleAnecdoteUseRouteMatch anecdote={anecdote} />
+          {
+            anecdote===null||anecdote==undefined
+              ? <div style={{ paddingTop: '20px' }}>
+                  <span style={{fontSize: '80px'}} >Anecdote not found</span>
+                </div>
+              : <SingleAnecdoteUseRouteMatch anecdote={anecdote} />
+          }
         </Route>
         <Route path='/anecdotes'>
           <AnecdoteList anecdotes={anecdotes} />
