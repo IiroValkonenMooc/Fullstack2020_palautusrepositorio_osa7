@@ -18,17 +18,25 @@ const useField = (type) => {
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
-  useEffect()
+  useEffect( () => {
+    axios.get('https://restcountries.eu/rest/v2/all')
+      .then( countriesData => {
+        console.log('search');
+        const foundCountries = countriesData.data.filter(country => country.name.toLowerCase().includes(name.toLowerCase()) )
+        const foundCountry = foundCountries.length === 1 
+          ? foundCountries[0]
+          : null
+        setCountry(foundCountry)
+      })
+    }, [name]
+  )
 
   return country
 }
 
 const Country = ({ country }) => {
+  console.log('country :>> ', country);
   if (!country) {
-    return null
-  }
-
-  if (!country.found) {
     return (
       <div>
         not found...
@@ -36,12 +44,20 @@ const Country = ({ country }) => {
     )
   }
 
+  // if (!country.found) {
+  //   return (
+  //     <div>
+  //       not found...
+  //     </div>
+  //   )
+  // }
+
   return (
     <div>
-      <h3>{country.data.name} </h3>
-      <div>capital {country.data.capital} </div>
-      <div>population {country.data.population}</div> 
-      <img src={country.data.flag} height='100' alt={`flag of ${country.data.name}`}/>  
+      <h3>{country.name} </h3>
+      <div>capital {country.capital} </div>
+      <div>population {country.population}</div> 
+      <img src={country.flag} height='100' alt={`flag of ${country.name}`}/>  
     </div>
   )
 }
