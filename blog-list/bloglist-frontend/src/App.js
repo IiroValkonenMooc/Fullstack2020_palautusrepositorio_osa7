@@ -95,12 +95,15 @@ const App = () => {
 
     //console.log('message päälle');
 
-    red ? setMessageRed(true) : setMessageRed(false)
-    setMessageText(text)
-    setShowMessage(true)
+    red ? dispatch(setNotificationColorToRed(true)) : dispatch(setNotificationColorToRed(false))
+    dispatch(setNotificationText(text))
+    //setMessageText(text)
+    dispatch(setNotificationVisibility(true))
+    //setShowMessage(true)
 
     setTimeout(() => {
-      setShowMessage(false)
+      dispatch(setNotificationVisibility(false))
+      //setShowMessage(false)
       //console.log('message pois');
     }, timeout)
   }
