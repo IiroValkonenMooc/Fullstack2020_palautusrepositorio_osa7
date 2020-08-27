@@ -9,7 +9,7 @@ const tokenReducer = (state=initialState, action) => {
     case 'SET_TOKEN_ALL_FIELDS':
       return action.data
     case 'SET_TOKEN_PAYLOAD':
-      return {...state, token: action.data }
+      return { ...state, token: action.data }
     case 'SET_TOKEN_NAME':
       return { ...state, loggedInName: action.data }
     case 'SET_TOKEN_USERNAME':
