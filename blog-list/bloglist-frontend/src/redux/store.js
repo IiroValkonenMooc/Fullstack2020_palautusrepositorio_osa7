@@ -4,12 +4,14 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import loginVisibilityReducer from './reducers/loginVisibility'
 import blogsVisibilityReducer from './reducers/blogsVisibility'
 import notificationReducer from './reducers/notificationReducer'
+import blogsReducer from './reducers/blogs';
 
 const reducers = combineReducers(
   {
     loginVisibility: loginVisibilityReducer,
     blogsVisibility: blogsVisibilityReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    blogs: blogsReducer
   }
 )
 

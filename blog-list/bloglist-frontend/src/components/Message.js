@@ -25,8 +25,8 @@ const Message = ({ show, message, red }) => {
   }
 }
 
-Message.propTypes = {
-  show: PropTypes.bool.isRequired
-}
+// Message.propTypes = {
+//   show: PropTypes.bool.isRequired
+// }
 
 export default Message

@@ -9,19 +9,25 @@ import loginService from './services/login'
 import Toggleable from './components/Toggleable'
 import './App.css'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
-import { setNotificationText, setNotificationVisibility, setNotificationColorToRed  } from './redux/reducers/notificationReducer'
+import {
+  setNotificationText,
+  setNotificationVisibility,
+  setNotificationColorToRed
+} from './redux/reducers/notificationReducer'
+import { setInitialBlogs } from './redux/reducers/blogs'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const [ablogs, setBlogs] = useState([])
   const [token, setToken] = useState(null)
   const [loggedInName, setLoggedInName] = useState(null)
   const [loggedInUserName, setloggedInUsername] = useState(null)
-  const [showMessage, setShowMessage] = useState(false)
-  const [messageText, setMessageText] = useState(false)
-  const [messageRed, setMessageRed] = useState(false)
+  // const [showMessage, setShowMessage] = useState(false)
+  // const [messageText, setMessageText] = useState(false)
+  // const [messageRed, setMessageRed] = useState(false)
   const blogFormRef = useRef()
 
   const dispatch = useDispatch()
+  const blogs = useSelector(state => state.blogs, shallowEqual )
 
   useEffect(() => {
     const lsName = localStorage.getItem('name')
@@ -37,9 +43,11 @@ const App = () => {
 
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
+    // blogService.getAll().then(blogs =>
+    //   setBlogs( blogs )
+    // )
+
+    dispatch( setInitialBlogs() )
   }, [])
 
   const handleUserLogin = async (login) => {
@@ -149,7 +157,7 @@ const App = () => {
       <div className='Padded-element'>
         <h2>blogs</h2>
       </div>
-      <Message show={showMessage} message={messageText} red={messageRed} />
+      <Message />
       {
         loggedInUserName === null
           ? <Toggleable buttonLabel={'Login'} >
