@@ -8,6 +8,8 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Toggleable from './components/Toggleable'
 import './App.css'
+import { useDispatch, useSelector, shallowEqual } from 'react-redux'
+import { setNotificationText, setNotificationVisibility, setNotificationColorToRed  } from './redux/reducers/notificationReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -18,6 +20,8 @@ const App = () => {
   const [messageText, setMessageText] = useState(false)
   const [messageRed, setMessageRed] = useState(false)
   const blogFormRef = useRef()
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const lsName = localStorage.getItem('name')
