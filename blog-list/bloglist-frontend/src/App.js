@@ -15,12 +15,18 @@ import {
   setNotificationColorToRed
 } from './redux/reducers/notificationReducer'
 import { setInitialBlogs } from './redux/reducers/blogs'
+import {
+  setTokenData,
+  setTokenDataName,
+  setTokenDataPayload,
+  setTokenDataUsername
+} from './redux/reducers/token'
 
 const App = () => {
   const [ablogs, setBlogs] = useState([])
-  const [token, setToken] = useState(null)
-  const [loggedInName, setLoggedInName] = useState(null)
-  const [loggedInUserName, setloggedInUsername] = useState(null)
+  //const [token, setToken] = useState(null)
+  //const [loggedInName, setLoggedInName] = useState(null)
+  //const [loggedInUserName, setloggedInUsername] = useState(null)
   // const [showMessage, setShowMessage] = useState(false)
   // const [messageText, setMessageText] = useState(false)
   // const [messageRed, setMessageRed] = useState(false)
@@ -28,6 +34,7 @@ const App = () => {
 
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs, shallowEqual )
+  const token = useSelector(state => state.token)
 
   useEffect(() => {
     const lsName = localStorage.getItem('name')
@@ -35,9 +42,12 @@ const App = () => {
     const lsToken = localStorage.getItem('token')
 
     if( lsName && lsUsername && lsToken){
-      setLoggedInName(lsName)
-      setloggedInUsername(lsUsername)
-      setToken(lsToken)
+      //setLoggedInName(lsName)
+      dispatch( setTokenDataName(lsName) )
+      //setloggedInUsername(lsUsername)
+      dispatch( setTokenDataUsername(lsUsername) )
+      //setToken(lsToken)
+      dispatch( setTokenDataPayload(lsToken) )
     }
   }, [])
 
@@ -56,12 +66,13 @@ const App = () => {
 
     if(tokenData.err ===  null){
       handleMessageChange('Login successful')
-      setLoggedInName(tokenData.login.name)
+      //setLoggedInName(tokenData.login.name)
       localStorage.setItem('name', tokenData.login.name)
-      setloggedInUsername(tokenData.login.username)
+      //setloggedInUsername(tokenData.login.username)
       localStorage.setItem('username', tokenData.login.username)
-      setToken('bearer '+tokenData.login.token)
+      //setToken('bearer '+tokenData.login.token)
       localStorage.setItem('token', 'bearer '+tokenData.login.token)
+      dispatch( setTokenData(tokenData.login) )
     } else {
       handleMessageChange('Status:'+tokenData.err.status+' '+tokenData.err.statusText+', '+
         tokenData.err.data.error, true, 4000)
@@ -69,9 +80,12 @@ const App = () => {
   }
 
   const handleLogout = () => {
-    setLoggedInName(null)
-    setloggedInUsername(null)
-    setToken(null)
+    // setLoggedInName(null)
+    // setloggedInUsername(null)
+    // setToken(null)
+    dispatch( setTokenDataName('') )
+    dispatch( setTokenDataUsername('') )
+    dispatch( setTokenDataPayload('') )
 
     handleMessageChange('logged out')
 
@@ -80,7 +94,7 @@ const App = () => {
 
   const submitNewBlogToDb = async (newBlog) => {
     console.log('newBlog :>> ', newBlog)
-    const response = await blogService.submitBlog(token, newBlog.title, newBlog.author, newBlog.url)
+    const response = await blogService.submitBlog(token.payload, newBlog.title, newBlog.author, newBlog.url)
 
     if (response.err === null) {
       handleMessageChange('New blog added: ' + newBlog.title)
@@ -117,7 +131,7 @@ const App = () => {
   }
 
   const handleBlogLike = async (blog) => {
-    const response = await blogService.likeBlog(token, blog)
+    const response = await blogService.likeBlog(token.payload, blog)
     // console.log('blog :>> ', blog)
     // console.log('blog liked')
 
@@ -137,7 +151,7 @@ const App = () => {
 
     if (confirmResult) {
 
-      const response = await blogService.deleteBlog(token, blog)
+      const response = await blogService.deleteBlog(token.payload, blog)
 
       if (response.err === null) {
         handleMessageChange(`Blog: ${blog.title} deleted`, false, 6000)
@@ -159,7 +173,7 @@ const App = () => {
       </div>
       <Message />
       {
-        loggedInUserName === null
+        token.loggedInUserName === ''
           ? <Toggleable buttonLabel={'Login'} >
             < LoginForm
               handleLogin={handleUserLogin}
@@ -167,13 +181,13 @@ const App = () => {
           </Toggleable>
           :
           < LoggedInMessage
-            loggedInUserName={loggedInUserName}
-            loggedInName={loggedInName}
+            loggedInUserName={token.loggedInUserName}
+            loggedInName={token.loggedInName}
             handleLogout={handleLogout}
           />
       }
 
-      {loggedInUserName !== null
+      {token.loggedInUserName !== null
         ? <Toggleable buttonLabel={'send new blog'} ref={blogFormRef} >
           < CreateBlogForm
             submitNewBlogToDb={submitNewBlogToDb}

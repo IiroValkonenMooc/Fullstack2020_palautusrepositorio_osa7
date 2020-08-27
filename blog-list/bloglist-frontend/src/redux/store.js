@@ -5,13 +5,15 @@ import loginVisibilityReducer from './reducers/loginVisibility'
 import blogsVisibilityReducer from './reducers/blogsVisibility'
 import notificationReducer from './reducers/notificationReducer'
 import blogsReducer from './reducers/blogs';
+import tokenReducer from './reducers/token';
 
 const reducers = combineReducers(
   {
     loginVisibility: loginVisibilityReducer,
     blogsVisibility: blogsVisibilityReducer,
     notification: notificationReducer,
-    blogs: blogsReducer
+    blogs: blogsReducer,
+    token: tokenReducer
   }
 )
 
