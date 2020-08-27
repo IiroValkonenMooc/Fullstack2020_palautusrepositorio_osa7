@@ -1,0 +1,91 @@
+h2 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.Message-red {
+  color: crimson;
+  background-color: yellow;
+  font-size: 30px;
+  font-weight: 900;
+  border-style: solid;
+  border: 8px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0px;
+}
+
+.Message-green {
+  color: green;
+  background-color: wheat;
+  font-size: 30px;
+  font-weight: 900;
+  border-style: solid;
+  border: 8px solid green;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0px;
+}
+
+.Blog-styling {
+  margin: 2px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: large;
+  width: fit-content;
+}
+
+.Blog-expanded-styling {
+  margin: 2px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-size: large;
+  width: fit-content;
+  display: grid;
+
+  grid-template-columns: max-content max-content;
+  grid-template-rows: max-content 20px 20px;
+
+  grid-template-areas: 
+    "info expand"
+    '. .'
+    '.  delete' ;
+}
+
+.Blog-info-button{
+  margin-left: 10px;
+  height: auto ;
+  background-color: greenyellow;
+}
+
+.Blog-like-button{
+  margin-left: 10px;
+  height: auto ;
+}
+
+.Blog-delete-button{
+  grid-area: delete;
+  width: 80px;
+  height: 20px;
+  margin-left: 10px;
+  color: yellow;
+  background-color: brown;
+}
+
+.Padded-element {
+  padding: 10px;
+}
+
+.Margined-element {
+  margin: 5px;
+}
+
+.Padding-none {
+  padding: 0px;
+}
+
+.Margin-none {
+  margin: 0px;
+}

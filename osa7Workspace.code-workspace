@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "routed-anecdotes"
+		},
+		{
+			"path": "country-hook"
+		},
+		{
+			"path": "ultimate-hooks"
+		},
+		{
+			"path": "blog-list\\blogilista_backend"
+		},
+		{
+			"path": "blog-list\\bloglist-frontend"
+		}
+	],
+	"settings": {}
+}
