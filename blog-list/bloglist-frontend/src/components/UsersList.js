@@ -12,7 +12,7 @@ const UsersList = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('effect');
+      console.log('effect')
       const foundUsers = await usersService.getAllUsers()
       dispatch( setUsers(foundUsers) )
     }) ()

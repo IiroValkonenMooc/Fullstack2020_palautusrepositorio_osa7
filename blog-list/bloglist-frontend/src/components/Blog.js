@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import {
+  Link
+} from 'react-router-dom'
 
 const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const [viewAll, setViewAll] = useState(false)
@@ -20,7 +23,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
   if(!viewAll){
     return (
       <div className='Blog-styling'>
-        {`${blog.title}, ${blog.author}`}
+        <Link to={`/blogs/${blog.id}`}>{`${blog.title}`}</Link>{`, ${blog.author}`}
         <button className='Blog-info-button' onClick={changeShow}>
           view all
         </button>
@@ -31,7 +34,7 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
       <div className='Blog-expanded-styling'>
         <div>
           <div>
-            {`Title: ${blog.title}, Author: ${blog.author}`}
+            <Link to={`/blogs/${blog.id}`}>{`Title: ${blog.title}`}</Link>{`, Author: ${blog.author}`}
           </div>
           <div>
             {`Url: ${blog.url}`}

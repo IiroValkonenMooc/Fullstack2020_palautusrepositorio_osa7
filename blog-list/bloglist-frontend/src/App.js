@@ -10,6 +10,7 @@ import Toggleable from './components/Toggleable'
 import LinkBar from './components/LinkBar'
 import UsersList from './components/UsersList'
 import UserProfile from './components/UserProfile'
+import BlogSingle from './components/BlogSingle'
 import './App.css'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import {
@@ -125,8 +126,11 @@ const App = () => {
     dispatch( deleteBlog(token.payload, blog) )
   }
 
-  const idMatch = useRouteMatch('/users/:id')
-  console.log('idMatch :>> ', idMatch);
+  const usersIdMatch = useRouteMatch('/users/:id')
+  console.log('usersIdMatch :>> ', usersIdMatch)
+
+  const blogsIdMatch = useRouteMatch('/blogs/:id')
+  console.log('blogsIdMatch :>> ', blogsIdMatch)
 
   return (
     <div>
@@ -135,11 +139,21 @@ const App = () => {
       </div>
       <LinkBar />
       <Switch>
+        <Route path='/blogs/:id'>
+          {blogsIdMatch ? <BlogSingle id={blogsIdMatch.params.id} /> : null}
+        </Route>
         <Route path='/blogs'>
-
+          <Message />
+          <div className='Padded-element'>
+            {blogs
+              .sort((a, b) => b.likes - a.likes)
+              .map(blog =>
+                <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete} />
+              )}
+          </div>
         </Route>
         <Route path='/users/:id'>
-          {idMatch ? <UserProfile id={idMatch.params.id} /> : null}
+          {usersIdMatch ? <UserProfile id={usersIdMatch.params.id} /> : null}
         </Route>
         <Route path='/users'>
           <Message />
