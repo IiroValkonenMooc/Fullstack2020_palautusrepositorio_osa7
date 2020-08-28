@@ -14,7 +14,7 @@ import {
   setNotificationVisibility,
   setNotificationColorToRed
 } from './redux/reducers/notificationReducer'
-import { setInitialBlogs } from './redux/reducers/blogs'
+import { setInitialBlogs, addBlog } from './redux/reducers/blogs'
 import {
   setTokenData,
   setTokenDataName,
@@ -94,17 +94,21 @@ const App = () => {
 
   const submitNewBlogToDb = async (newBlog) => {
     console.log('newBlog :>> ', newBlog)
-    const response = await blogService.submitBlog(token.payload, newBlog.title, newBlog.author, newBlog.url)
+    console.log('token.payload :>> ', token.payload);
+    dispatch( addBlog( token.payload, newBlog ) )
+    // const response = await blogService.submitBlog(token.payload, newBlog.title, newBlog.author, newBlog.url)
 
-    if (response.err === null) {
-      handleMessageChange('New blog added: ' + newBlog.title)
-      const newBlogs = await blogService.getAll()
-      setBlogs(newBlogs)
+    // console.log('response :>> ', response);
 
-      blogFormRef.current.toggleVisibility()
-    } else {
-      handleMessageChange('Blog to add new blog: ' + response.err.data.error)
-    }
+    // if (response.err === null) {
+    //   handleMessageChange('New blog added: ' + newBlog.title)
+    //   const newBlogs = await blogService.getAll()
+    //   setBlogs(newBlogs)
+
+    //   blogFormRef.current.toggleVisibility()
+    // } else {
+    //   handleMessageChange('Blog to add new blog: ' + response.err.data.error)
+    // }
   }
 
   const handleMessageChange = async (text, red, timeoutDur) => {

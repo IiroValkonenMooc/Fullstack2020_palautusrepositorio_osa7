@@ -6,6 +6,8 @@ const initialState = {
 
 const notificationReducer = (state = initialState, action) =>  {
   switch (action.type) {
+    case 'SET_NOTIFICATION':
+      return action.data
     case 'SET_NOTIFICATION_TEXT':
       return { ...state, message: action.data }
     case 'SET_NOTIFICATION_VISIBILITY':
@@ -14,6 +16,13 @@ const notificationReducer = (state = initialState, action) =>  {
       return { ...state, red: action.data }
     default:
       return state
+  }
+}
+
+export const setNotification = (data) => {
+  return{
+    type: 'SET_NOTIFICATION',
+    data: data
   }
 }
 

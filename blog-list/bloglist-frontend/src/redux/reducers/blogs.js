@@ -27,4 +27,45 @@ export const setInitialBlogs = () => {
   }
 }
 
+export const addBlog = (token, newBlog) => {
+  return async dispatch => {
+    try {
+      const addedBlog = await blogService.submitBlog(token, newBlog.title, newBlog.author, newBlog.url)
+      console.log('addedBlog :>> ', addedBlog);
+
+      dispatch(
+        {
+          type: 'ADD_BLOG',
+          data: addedBlog.response.data
+        }
+      )
+
+    } catch (e) {
+      dispatch(
+        {
+          type: 'SET_NOTIFICATION',
+          data: {
+            show: true,
+            message: 'Blog add failed',
+            red: true
+          }
+        }
+      )
+      setTimeout(() => {
+        dispatch(
+          {
+            type: 'SET_NOTIFICATION',
+            data: {
+              show: false,
+              message: '',
+              red: false
+            }
+          }
+        )
+      }, 5000)
+    }
+
+  }
+}
+
 export default blogsReducer
