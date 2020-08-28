@@ -9,6 +9,7 @@ import loginService from './services/login'
 import Toggleable from './components/Toggleable'
 import LinkBar from './components/LinkBar'
 import UsersList from './components/UsersList'
+import UserProfile from './components/UserProfile'
 import './App.css'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import {
@@ -40,7 +41,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state.blogs, shallowEqual )
+  const blogs = useSelector(state => state.blogs)
   const token = useSelector(state => state.token)
   const users = useSelector(state => state.users)
 
@@ -125,6 +126,7 @@ const App = () => {
   }
 
   const idMatch = useRouteMatch('/users/:id')
+  console.log('idMatch :>> ', idMatch);
 
   return (
     <div>
@@ -132,13 +134,12 @@ const App = () => {
         <h2>blogs</h2>
       </div>
       <LinkBar />
-
       <Switch>
         <Route path='/blogs'>
 
         </Route>
         <Route path='/users/:id'>
-          {'asd'}
+          {idMatch ? <UserProfile id={idMatch.params.id} /> : null}
         </Route>
         <Route path='/users'>
           <Message />
