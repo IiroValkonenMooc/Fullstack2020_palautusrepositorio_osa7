@@ -14,7 +14,11 @@ import {
   setNotificationVisibility,
   setNotificationColorToRed
 } from './redux/reducers/notificationReducer'
-import { setInitialBlogs, addBlog } from './redux/reducers/blogs'
+import { setInitialBlogs,
+  addBlog,
+  likeBlog,
+  deleteBlog
+} from './redux/reducers/blogs'
 import {
   setTokenData,
   setTokenDataName,
@@ -94,7 +98,7 @@ const App = () => {
 
   const submitNewBlogToDb = async (newBlog) => {
     console.log('newBlog :>> ', newBlog)
-    console.log('token.payload :>> ', token.payload);
+    console.log('token.payload :>> ', token.payload)
     dispatch( addBlog( token.payload, newBlog ) )
     // const response = await blogService.submitBlog(token.payload, newBlog.title, newBlog.author, newBlog.url)
 
@@ -135,39 +139,41 @@ const App = () => {
   }
 
   const handleBlogLike = async (blog) => {
-    const response = await blogService.likeBlog(token.payload, blog)
+    // const response = await blogService.likeBlog(token.payload, blog)
     // console.log('blog :>> ', blog)
     // console.log('blog liked')
 
-    if (response.err === null) {
-      handleMessageChange(`Blog: ${blog.title} liked`)
-      const newBlogs = await blogService.getAll()
-      setBlogs(newBlogs)
+    // if (response.err === null) {
+    //   handleMessageChange(`Blog: ${blog.title} liked`)
+    //   const newBlogs = await blogService.getAll()
+    //   setBlogs(newBlogs)
 
-    } else {
-      handleMessageChange('Failed to add new blog: ' + response.err.response.data.error, true)
-    }
+    // } else {
+    //   handleMessageChange('Failed to add new blog: ' + response.err.response.data.error, true)
+    // }
+    dispatch( likeBlog(token.payload, blog) )
   }
 
   const handleBlogDelete = async (blog) => {
-    console.log('deleting blog')
-    const confirmResult = window.confirm(`Really delete blog: ${blog.title}`)
+    // console.log('deleting blog')
+    // const confirmResult = window.confirm(`Really delete blog: ${blog.title}`)
 
-    if (confirmResult) {
+    // if (confirmResult) {
 
-      const response = await blogService.deleteBlog(token.payload, blog)
+    //   const response = await blogService.deleteBlog(token.payload, blog)
 
-      if (response.err === null) {
-        handleMessageChange(`Blog: ${blog.title} deleted`, false, 6000)
-        const newBlogs = await blogService.getAll()
-        setBlogs(newBlogs)
-      } else {
-        handleMessageChange('Failed to delete blog: ' + response.err.response.data.error, true, 6000)
-        const newBlogs = await blogService.getAll()
-        setBlogs(newBlogs)
-      }
+    //   if (response.err === null) {
+    //     handleMessageChange(`Blog: ${blog.title} deleted`, false, 6000)
+    //     const newBlogs = await blogService.getAll()
+    //     setBlogs(newBlogs)
+    //   } else {
+    //     handleMessageChange('Failed to delete blog: ' + response.err.response.data.error, true, 6000)
+    //     const newBlogs = await blogService.getAll()
+    //     setBlogs(newBlogs)
+    //   }
 
-    }
+    // }
+    dispatch( deleteBlog(token.payload, blog) )
   }
 
   return (
