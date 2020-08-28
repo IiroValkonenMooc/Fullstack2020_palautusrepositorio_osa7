@@ -7,6 +7,8 @@ import Message from './components/Message'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Toggleable from './components/Toggleable'
+import LinkBar from './components/LinkBar'
+import UsersList from './components/UsersList'
 import './App.css'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import {
@@ -25,6 +27,14 @@ import {
   setTokenDataPayload,
   setTokenDataUsername
 } from './redux/reducers/token'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from 'react-router-dom'
 
 const App = () => {
   const [ablogs, setBlogs] = useState([])
@@ -181,37 +191,66 @@ const App = () => {
       <div className='Padded-element'>
         <h2>blogs</h2>
       </div>
-      <Message />
-      {
-        token.loggedInUserName === ''
-          ? <Toggleable buttonLabel={'Login'} >
-            < LoginForm
-              handleLogin={handleUserLogin}
-            />
-          </Toggleable>
-          :
-          < LoggedInMessage
-            loggedInUserName={token.loggedInUserName}
-            loggedInName={token.loggedInName}
-            handleLogout={handleLogout}
-          />
-      }
+      <Router>
+        <LinkBar />
 
-      {token.loggedInUserName !== null
-        ? <Toggleable buttonLabel={'send new blog'} ref={blogFormRef} >
-          < CreateBlogForm
-            submitNewBlogToDb={submitNewBlogToDb}
-          />
-        </Toggleable>
-        : null
-      }
-      <div className='Padded-element'>
-        {blogs
-          .sort( (a,b) => b.likes-a.likes)
-          .map(blog =>
-            <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete}/>
-          )}
-      </div>
+        <Switch>
+          <Route path="/blogs">
+
+          </Route>
+          <Route path="/users">
+            <Message />
+            {
+              token.loggedInUserName === ''
+                ? <Toggleable buttonLabel={'Login'} >
+                  < LoginForm
+                    handleLogin={handleUserLogin}
+                  />
+                </Toggleable>
+                :
+                < LoggedInMessage
+                  loggedInUserName={token.loggedInUserName}
+                  loggedInName={token.loggedInName}
+                  handleLogout={handleLogout}
+                />
+            }
+            <UsersList />
+          </Route>
+          <Route path="/">
+            <Message />
+            {
+              token.loggedInUserName === ''
+                ? <Toggleable buttonLabel={'Login'} >
+                  < LoginForm
+                    handleLogin={handleUserLogin}
+                  />
+                </Toggleable>
+                :
+                < LoggedInMessage
+                  loggedInUserName={token.loggedInUserName}
+                  loggedInName={token.loggedInName}
+                  handleLogout={handleLogout}
+                />
+            }
+
+            {token.loggedInUserName !== null
+              ? <Toggleable buttonLabel={'send new blog'} ref={blogFormRef} >
+                < CreateBlogForm
+                  submitNewBlogToDb={submitNewBlogToDb}
+                />
+              </Toggleable>
+              : null
+            }
+            <div className='Padded-element'>
+              {blogs
+                .sort((a, b) => b.likes - a.likes)
+                .map(blog =>
+                  <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete} />
+                )}
+            </div>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   )
 }

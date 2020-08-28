@@ -34,13 +34,14 @@ userRouter.post('/', async (request, response) => {
 })
 
 userRouter.get('/', async (request, response) => {
-    const users = await User.find()
+    const users = await User.find().populate('addedBlogs')
     const usersNoPw = users.map(user => {
         return (
             {
                 id: user.id,
                 name: user.name,
-                username: user.username
+                username: user.username,
+                addedBlogs: user.addedBlogs
             }
         )
     })

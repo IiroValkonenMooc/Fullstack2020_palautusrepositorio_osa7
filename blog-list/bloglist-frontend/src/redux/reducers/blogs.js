@@ -9,7 +9,7 @@ const blogsReducer = (state=initialState, action) => {
     case 'ADD_BLOG':
       return [...state, action.data]
     case 'LIKE_BLOG':
-      console.log('action.data :>> ', action.data);
+      console.log('action.data :>> ', action.data)
       return state.slice().map(
         blog => blog = blog.id === action.data.id
           ? { ...blog, likes: action.data.likes }
