@@ -69,4 +69,23 @@ const deleteBlog = async (token, blog) => {
   }
 }
 
-export default { getAll, submitBlog, likeBlog, deleteBlog }
+const commentBlog = async (blog, newComment) => {
+  const blogToSend = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    user: blog.user.id,
+    likes: blog.likes,
+    comments: [...blog.comments, newComment]
+  }
+
+  try {
+    const response = await axios.put(baseUrl+'/'+blog.id+'-comment', blogToSend)
+    return { err: null, response: response }
+  } catch (e) {
+    console.log('e :>> ', e)
+    return { err: e, response: null }
+  }
+}
+
+export default { getAll, submitBlog, likeBlog, deleteBlog, commentBlog }

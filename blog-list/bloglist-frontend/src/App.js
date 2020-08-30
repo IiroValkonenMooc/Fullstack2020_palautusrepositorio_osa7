@@ -72,7 +72,13 @@ const App = () => {
       localStorage.setItem('name', tokenData.login.name)
       localStorage.setItem('username', tokenData.login.username)
       localStorage.setItem('token', 'bearer '+tokenData.login.token)
-      dispatch( setTokenData(tokenData.login) )
+      dispatch( setTokenData(
+        {
+          payload: tokenData.login.token,
+          loggedInName: tokenData.login.name,
+          loggedInUserName: tokenData.login.username
+        }
+      ) )
     } else {
       handleMessageChange('Status:'+tokenData.err.status+' '+tokenData.err.statusText+', '+
         tokenData.err.data.error, true, 4000)
@@ -137,7 +143,7 @@ const App = () => {
       <div className='Padded-element'>
         <h2>blogs</h2>
       </div>
-      <LinkBar />
+      <LinkBar logout={handleLogout} />
       <Switch>
         <Route path='/blogs/:id'>
           {blogsIdMatch ? <BlogSingle id={blogsIdMatch.params.id} /> : null}
@@ -157,7 +163,7 @@ const App = () => {
         </Route>
         <Route path='/users'>
           <Message />
-          {
+          {/* {
             token.loggedInUserName === ''
               ? <Toggleable buttonLabel={'Login'} >
                 < LoginForm
@@ -170,7 +176,7 @@ const App = () => {
                 loggedInName={token.loggedInName}
                 handleLogout={handleLogout}
               />
-          }
+          } */}
           <UsersList />
         </Route>
         <Route path="/">

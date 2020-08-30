@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import usersService from '../services/users'
+import React from 'react'
 import { useDispatch, useSelector, shallowEqual } from 'react-redux'
 import { setUsers } from '../redux/reducers/users'
 import userService from '../services/users'
