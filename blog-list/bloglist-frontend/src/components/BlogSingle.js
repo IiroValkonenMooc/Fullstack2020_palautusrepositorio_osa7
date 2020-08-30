@@ -26,8 +26,10 @@ const BlogSingle = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    if(!commentText.value) { return }
     console.log('comment.value :>> ', commentText.value)
     await blogsService.commentBlog(blog, commentText.value)
+    commentText.emptyField()
     dispatch( setInitialBlogs() )
   }
 
