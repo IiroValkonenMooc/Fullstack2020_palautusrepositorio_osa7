@@ -89,7 +89,7 @@ blogsRouter.put('/:id-comment', async (request, response) => {
     else if(blogToModify.likes !== dataToUpdate.likes) { return response.status(401).json( { error: 'invalid blog' }) }
     else if(blogToModify.comments > dataToUpdate.comments) { return response.status(401).json( { error: 'invalid blog' }) }
 
-    if ( !dataToUpdate.comments ) { dataToUpdate.comments = [] }
+    //if ( !dataToUpdate.comments ) { dataToUpdate.comments = [] }
 
     await Blog.findByIdAndUpdate(id, dataToUpdate)
 
@@ -119,7 +119,7 @@ blogsRouter.put('/:id', async (request, response) => {
     else if(blogToModify.user.toJSON() !== dataToUpdate.user) { return response.status(401).json( { error: 'invalid blog' }) }
     else if(blogToModify.likes + 1 < dataToUpdate.likes) { return response.status(401).json( { error: 'invalid blog' }) }
 
-    if ( !dataToUpdate.comments ) { dataToUpdate.comments = [] }
+    //if ( !dataToUpdate.comments ) { dataToUpdate.comments = [] }
 
     await Blog.findByIdAndUpdate(id, dataToUpdate)
 
