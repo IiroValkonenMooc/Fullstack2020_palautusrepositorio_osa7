@@ -2,17 +2,17 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams
+  Link
 } from 'react-router-dom'
+import StyledLink from './styledComponents/StyledLink'
+import StyledContainer from './styledComponents/StyledContainer'
+import StyledText from './styledComponents/StyledText'
+
 
 const LinkBarLoginMessage = ({ token }) => {
   if(token.payload){
     return(
-      <span>{`Logged in as ${token.loggedInUserName}`}</span>
+      <StyledText>{`Logged in as ${token.loggedInUserName}`}</StyledText>
     )
   } else {
     return (
@@ -26,13 +26,15 @@ const LinkBar = (props) => {
   const token = useSelector(state => state.token)
 
   return(
-    <div>
-      <Link to='/'>Home</Link>
-      <Link to='/blogs'>Blogs</Link>
-      <Link to='/users'>Users</Link>
-      <LinkBarLoginMessage token={token} />
-      {token.payload ? <button onClick={ props.logout } >logout</button> : null }
-    </div>
+    <StyledContainer>
+      <StyledLink to='/'>Home</StyledLink>
+      <StyledLink to='/blogs'>Blogs</StyledLink>
+      <StyledLink to='/users'>Users</StyledLink>
+      <div  style={{ display: 'inline-block', float:'right', padding:'5px' }}>
+        <LinkBarLoginMessage token={token} />
+        {token.payload ? <button onClick={ props.logout } >logout</button> : null }
+      </div>
+    </StyledContainer>
   )
 }
 

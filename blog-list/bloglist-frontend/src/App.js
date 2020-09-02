@@ -37,6 +37,8 @@ import {
   useRouteMatch,
   useParams
 } from 'react-router-dom'
+import Container from '@material-ui/core/Container'
+import Typography from '@material-ui/core/Typography'
 
 const App = () => {
   const blogFormRef = useRef()
@@ -139,31 +141,32 @@ const App = () => {
   console.log('blogsIdMatch :>> ', blogsIdMatch)
 
   return (
-    <div>
-      <div className='Padded-element'>
-        <h2>blogs</h2>
-      </div>
-      <LinkBar logout={handleLogout} />
-      <Switch>
-        <Route path='/blogs/:id'>
-          {blogsIdMatch ? <BlogSingle id={blogsIdMatch.params.id} /> : null}
-        </Route>
-        <Route path='/blogs'>
-          <Message />
-          <div className='Padded-element'>
-            {blogs
-              .sort((a, b) => b.likes - a.likes)
-              .map(blog =>
-                <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete} />
-              )}
-          </div>
-        </Route>
-        <Route path='/users/:id'>
-          {usersIdMatch ? <UserProfile id={usersIdMatch.params.id} /> : null}
-        </Route>
-        <Route path='/users'>
-          <Message />
-          {/* {
+    <div  style= {{ height: '100vh', backgroundColor: '#939393' }}>
+      <Container maxWidth='sm' style={{ backgroundColor: '#FFFFFF', height: '100vh' }}  >
+        <div className='Padded-element'>
+          <Typography variant='h1' >Blogs</Typography>
+        </div>
+        <LinkBar logout={handleLogout} />
+        <Switch>
+          <Route path='/blogs/:id'>
+            {blogsIdMatch ? <BlogSingle id={blogsIdMatch.params.id} /> : null}
+          </Route>
+          <Route path='/blogs'>
+            <Message />
+            <div className='Padded-element'>
+              {blogs
+                .sort((a, b) => b.likes - a.likes)
+                .map(blog =>
+                  <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete} />
+                )}
+            </div>
+          </Route>
+          <Route path='/users/:id'>
+            {usersIdMatch ? <UserProfile id={usersIdMatch.params.id} /> : null}
+          </Route>
+          <Route path='/users'>
+            <Message />
+            {/* {
             token.loggedInUserName === ''
               ? <Toggleable buttonLabel={'Login'} >
                 < LoginForm
@@ -177,42 +180,43 @@ const App = () => {
                 handleLogout={handleLogout}
               />
           } */}
-          <UsersList />
-        </Route>
-        <Route path="/">
-          <Message />
-          {
-            token.loggedInUserName === ''
-              ? <Toggleable buttonLabel={'Login'} >
-                < LoginForm
-                  handleLogin={handleUserLogin}
+            <UsersList />
+          </Route>
+          <Route path="/">
+            <Message />
+            {
+              token.loggedInUserName === ''
+                ? <Toggleable buttonLabel={'Login'} >
+                  < LoginForm
+                    handleLogin={handleUserLogin}
+                  />
+                </Toggleable>
+                :
+                < LoggedInMessage
+                  loggedInUserName={token.loggedInUserName}
+                  loggedInName={token.loggedInName}
+                  handleLogout={handleLogout}
+                />
+            }
+
+            {token.loggedInUserName !== null
+              ? <Toggleable buttonLabel={'send new blog'} ref={blogFormRef} >
+                < CreateBlogForm
+                  submitNewBlogToDb={submitNewBlogToDb}
                 />
               </Toggleable>
-              :
-              < LoggedInMessage
-                loggedInUserName={token.loggedInUserName}
-                loggedInName={token.loggedInName}
-                handleLogout={handleLogout}
-              />
-          }
-
-          {token.loggedInUserName !== null
-            ? <Toggleable buttonLabel={'send new blog'} ref={blogFormRef} >
-              < CreateBlogForm
-                submitNewBlogToDb={submitNewBlogToDb}
-              />
-            </Toggleable>
-            : null
-          }
-          <div className='Padded-element'>
-            {blogs
-              .sort((a, b) => b.likes - a.likes)
-              .map(blog =>
-                <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete} />
-              )}
-          </div>
-        </Route>
-      </Switch>
+              : null
+            }
+            <div className='Padded-element'>
+              {blogs
+                .sort((a, b) => b.likes - a.likes)
+                .map(blog =>
+                  <Blog key={blog.id} blog={blog} likeBlog={handleBlogLike} deleteBlog={handleBlogDelete} />
+                )}
+            </div>
+          </Route>
+        </Switch>
+      </Container>
     </div>
   )
 }

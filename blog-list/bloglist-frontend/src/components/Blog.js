@@ -2,9 +2,26 @@ import React, { useState } from 'react'
 import {
   Link
 } from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '&  > *': {
+      margin: theme.spacing(1),
+      width: theme.spacing(16),
+      height: theme.spacing(16),
+    },
+  },
+}))
 
 const Blog = ({ blog, likeBlog, deleteBlog }) => {
   const [viewAll, setViewAll] = useState(false)
+
+  const classes = useStyles()
 
   const changeShow = () => {
     setViewAll(!viewAll)
@@ -22,12 +39,12 @@ const Blog = ({ blog, likeBlog, deleteBlog }) => {
 
   if(!viewAll){
     return (
-      <div className='Blog-styling'>
+      <Paper elevation={3} className='Blog-styling'>
         <Link to={`/blogs/${blog.id}`}>{`${blog.title}`}</Link>{`, ${blog.author}`}
-        <button className='Blog-info-button' onClick={changeShow}>
+        <Button variant='text' color='primary'  onClick={changeShow}>
           view all
-        </button>
-      </div>
+        </Button>
+      </Paper >
     )
   } else {
     return(

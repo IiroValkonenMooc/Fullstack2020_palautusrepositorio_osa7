@@ -30,9 +30,9 @@ h2 {
 .Blog-styling {
   margin: 2px;
   padding: 5px;
-  border: 2px solid black;
-  border-radius: 5px;
-  font-size: large;
+  /* border: 2px solid black; */
+  /* border-radius: 5px; */
+  /* font-size: large; */
   width: fit-content;
 }
 
